@@ -1,0 +1,67 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 p-3">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="#">Gestión de Empleados</a>
+	</div>
+</nav>
+
+<div class="container">
+	<div class="row">
+        <!-- Formulario de empleado (más angosto, a la derecha) -->
+		<div class="col-lg-4 col-md-5">
+			<div class="card shadow-sm">
+				<div class="card-body">
+					<h5 class="card-title text-center mb-3">{{ modoEdicion ? 'Editar Empleado' : 'Agregar Empleado' }}</h5>
+					<form (ngSubmit)="modoEdicion ? actualizarEmpleado() : crearEmpleado()">
+						<div class="mb-3">
+							<label class="form-label">Nombre</label>
+							<input type="text" class="form-control" [(ngModel)]="empleadoForm.nombre" name="nombre" required>
+						</div>
+						<div class="mb-3">
+							<label class="form-label">Cargo</label>
+							<input type="text" class="form-control" [(ngModel)]="empleadoForm.cargo" name="cargo" required>
+						</div>
+						<div class="mb-3">
+							<label class="form-label">Departamento</label>
+							<input type="text" class="form-control" [(ngModel)]="empleadoForm.departamento" name="departamento" required>
+						</div>
+						<div class="mb-3">
+							<label class="form-label">Sueldo</label>
+							<input type="number" class="form-control" [(ngModel)]="empleadoForm.sueldo" name="sueldo" required>
+						</div>
+						<div class="d-flex">
+							<button type="submit" class="btn btn-primary me-2">{{ modoEdicion ? 'Actualizar' : 'Agregar' }}</button>
+							<button type="button" class="btn btn-secondary" (click)="limpiarSeleccion()" *ngIf="modoEdicion">Cancelar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<!-- Tabla de empleados (más ancha) -->
+		<div class="col-lg-8 col-md-7 mb-4">
+			<table class="table table-hover">
+				<thead class="table-light">
+					<tr>
+						<th>Nombre</th>
+						<th>Cargo</th>
+						<th>Departamento</th>
+						<th>Sueldo</th>
+						<th>Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let empleado of empleados">
+						<td>{{ empleado.nombre }}</td>
+						<td>{{ empleado.cargo }}</td>
+						<td>{{ empleado.departamento }}</td>
+						<td>{{ empleado.sueldo | currency:'USD' }}</td>
+						<td>
+							<button class="btn btn-sm btn-info me-2" (click)="seleccionarEmpleado(empleado)">Editar</button>
+							<button class="btn btn-sm btn-danger" (click)="eliminarEmpleado(empleado._id!)">Eliminar</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
